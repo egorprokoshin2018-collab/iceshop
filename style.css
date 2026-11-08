@@ -1,10 +1,10 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #0b0b1a;
-  --card: #121221;
-  --text: #e0e0e8;
-  --accent: #6c5ce7;
+  --bg: #0f1a33;      /* тёмно-синий фон */
+  --card: #1a2b4d;    /* цвет карточек */
+  --text: #e0e7ff;    /* светлый текст */
+  --accent: #4facfe;  /* яркий акцент */
 }
 
 body {
@@ -16,8 +16,8 @@ body {
 }
 
 header { text-align: center; margin-bottom: 16px; }
-header h1 { font-size: 24px; color: #ffffff; }
-header p { color: #9a9ab5; font-size: 14px; }
+header h1 { font-size: 24px; color: var(--text); }
+header p { color: #8fa3d0; font-size: 14px; }
 
 .product {
   background: var(--card);
@@ -42,7 +42,7 @@ header p { color: #9a9ab5; font-size: 14px; }
 
 .product button {
   background: var(--accent);
-  color: #ffffff;
+  color: #0f1a33;
   border: none;
   border-radius: 8px;
   padding: 8px 14px;
@@ -63,7 +63,7 @@ footer {
 footer button {
   width: 100%;
   background: var(--accent);
-  color: #ffffff;
+  color: #0f1a33;
   border: none;
   border-radius: 12px;
   padding: 14px;
