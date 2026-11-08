@@ -1,22 +1,26 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+:root {
+  --bg: #0f1a33;      /* тёмно-синий фон */
+  --card: #1a2b4d;    /* цвет карточек */
+  --text: #e0e7ff;    /* светлый текст */
+  --accent: #4facfe;  /* яркий акцент */
+}
+
 body {
-  background-color: var(--bg);
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+  background: var(--bg);
   color: var(--text);
-  margin: 0;
-  font-family: sans-serif;
+  padding: 16px;
+  padding-bottom: 80px;
 }
 
-
-header, .product-card {
-  background-color: var(--card);
-}
-
-header h1 { font-size: 24px; }
-header p { color: #666; font-size: 14px; }
+header { text-align: center; margin-bottom: 16px; }
+header h1 { font-size: 24px; color: var(--text); }
+header p { color: #8fa3d0; font-size: 14px; }
 
 .product {
-  background: #fff;
+  background: var(--card);
   border-radius: 12px;
   padding: 12px;
   margin-bottom: 12px;
@@ -33,16 +37,17 @@ header p { color: #666; font-size: 14px; }
 }
 
 .product-info { flex: 1; }
-.product-info h3 { font-size: 16px; }
-.product-info p { color: #007aff; font-weight: 600; margin-top: 4px; }
+.product-info h3 { font-size: 16px; color: var(--text); }
+.product-info p { color: var(--accent); font-weight: 600; margin-top: 4px; }
 
 .product button {
-  background: #007aff;
-  color: #fff;
+  background: var(--accent);
+  color: #0f1a33;
   border: none;
   border-radius: 8px;
   padding: 8px 14px;
   font-size: 14px;
+  font-weight: 600;
   cursor: pointer;
 }
 
@@ -52,30 +57,17 @@ footer {
   left: 0;
   right: 0;
   padding: 12px 16px;
-  background: #f2f2f7;
+  background: var(--bg);
 }
 
 footer button {
   width: 100%;
-  background: #007aff;
-  color: #fff;
+  background: var(--accent);
+  color: #0f1a33;
   border: none;
   border-radius: 12px;
   padding: 14px;
   font-size: 16px;
+  font-weight: 600;
   cursor: pointer;
 }
-:root {
-  --bg: #0f1a33;
-  --card: #1a2b4d;
-  --text: #e0e7ff;
-  --accent: #4facfe;
-}
-button, .btn {
-  background-color: var(--accent);
-  color: #0f1a33;
-  border: none;
-  padding: 8px 16px;
-}
-
-
