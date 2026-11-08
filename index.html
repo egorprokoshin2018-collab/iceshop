@@ -320,40 +320,38 @@
       return cart.reduce((sum, item) => sum + products.find(p => p.id === item.id).price, 0);
     }
 
-  function renderCart() {
-  const box = document.getElementById("cart-items");
-  box.innerHTML = "";
-  const groups = {};
-  cart.forEach(item => {
-    const key = item.id + (item.color ? "|" + item.color : "");
-    groups[key] = (groups[key] || 0) + 1;
-  });
+      function renderCart() {
+      const box = document.getElementById("cart-items");
+      box.innerHTML = "";
+      const groups = {};
+      cart.forEach(item => {
+        const key = item.id + (item.color ? "|" + item.color : "");
+        groups[key] = (groups[key] || 0) + 1;
+      });
 
-  Object.keys(groups).forEach(key => {
-    const parts = key.split("|");
-    const id = parseInt(parts, 10);
-    const color = parts.length > 1 ? parts : null;
-    const p = products.find(x => x.id === id);
-    const idx = cart.findIndex(i => i.id === id && (i.color || null) === (color || null));
-    const totalPrice = (p.price * groups[key]).toLocaleString("ru-RU");
+      Object.keys(groups).forEach(key => {
+        const parts = key.split("|");
+        const id = parseInt(parts[0], 10);
+        const color = parts.length > 1 ? parts[1] : null;
+        const p = products.find(x => x.id === id);
+        const idx = cart.findIndex(i => i.id === id && (i.color || null) === (color || null));
 
-    box.insertAdjacentHTML("beforeend", `
-      <div class="cart-item">
-        <div>
-          <div class="cart-item-name">${p.title}${color ? " · " + color : ""} × \${groups[key]}</div>
-          <button class="back-link" style="margin:0; font-size:13px;" onclick="removeOne(\${idx})">Удалить одну</button>
-        </div>
-        <div class="cart-item-price">\${totalPrice} ₽</div>
-      </div>
-    `);
-  });
+        let line = '<div class="cart-item">';
+        line += '<div>';
+        line += '<div class="cart-item-name">' + p.title + (color ? " · " + color : "") + " × " + groups[key] + '</div>';
+        line += '<button class="back-link" style="margin:0; font-size:13px;" onclick="removeOne(' + idx + ')">Удалить одну</button>';
+        line += '</div>';
+        line += '<div class="cart-item-price">' + (p.price * groups[key]).toLocaleString("ru-RU") + ' ₽</div>';
+        line += '</div>';
+        box.insertAdjacentHTML("beforeend", line);
+      });
 
-  const total = getTotal();
-  document.getElementById("cart-empty").style.display = cart.length ? "none" : "block";
-  document.getElementById("cart-total").style.display = cart.length ? "block" : "none";
-  document.getElementById("checkout-btn").style.display = cart.length ? "block" : "none";
-  document.getElementById("total-sum").textContent = total.toLocaleString("ru-RU") + " ₽";
-}
+      const total = getTotal();
+      document.getElementById("cart-empty").style.display = cart.length ? "none" : "block";
+      document.getElementById("cart-total").style.display = cart.length ? "block" : "none";
+      document.getElementById("checkout-btn").style.display = cart.length ? "block" : "none";
+      document.getElementById("total-sum").textContent = total.toLocaleString("ru-RU") + " ₽";
+    }
 
 
 
