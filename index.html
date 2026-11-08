@@ -374,35 +374,42 @@ tg.ready();
     }
 
     function payNow() {
-      if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-        const items = cart.map(i => {
-          const p = products.find(x => x.id === i.id);
-          return p ? p.title + (i.color ? " (" + i.color + ")" : "") : "товар";
-        });
-        const payload = JSON.stringify({
-          items: items,
-          total: getTotal(),
-          phone: document.getElementById("phone").value,
-          address: [document.getElementById("street").value,
-                    document.getElementById("house").value,
-                    document.getElementById("entrance").value,
-                    document.getElementById("apartment").value,
-                    document.getElementById("floor").value].join(", ")
-        });
-        tg.sendData(payload);
-       cart = [];
+  const phoneEl = document.getElementById("phone");
+  const phone = phoneEl ? phoneEl.value.trim() : "";
 
-        document.getElementById("cart-count").textContent = 0;
-        showPage("success");
-      } else {
-        const ok = confirm("Вы перевели сумму по СБП? Нажмите ОК, если оплата отправлена.");
-        if (!ok) return;
-        cart = [];
+  const addressParts = ["street", "house", "entrance", "apartment", "floor"]
+    .map(id => document.getElementById(id)?.value?.trim())
+    .filter(Boolean);
+  const address = addressParts.join(", ");
 
-        document.getElementById("cart-count").textContent = 0;
-        showPage("success");
-      }
-    }
+  if (!phone || !address) {
+    alert("Заполните телефон и адрес!");
+    return;
+  }
+
+  const items = cart.map(i => {
+    const p = products.find(x => x.id === i.id);
+    return p ? p.title + (i.color ? " (" + i.color + ")" : "") : "товар";
+  });
+
+  const payload = JSON.stringify({
+    items: items,
+    total: getTotal(),
+    phone: phone,
+    address: address
+  });
+
+  if (tg && tg.sendData) {
+    tg.sendData(payload);
+  } else {
+    alert("Откройте магазин через кнопку бота, чтобы оформить заказ.");
+    return;
+  }
+
+  cart = [];
+  document.getElementById("cart-count").textContent = 0;
+  showPage("success");
+}
 
     // ===== МАСКА ТЕЛЕФОНА =====
     const phoneInput = document.getElementById('phone');
@@ -424,6 +431,8 @@ tg.ready();
   </script>
 </body>
 </html>
+
+
 
 
 
