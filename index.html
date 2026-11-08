@@ -228,8 +228,24 @@
   <div class="cart-bar" id="cart-bar" onclick="showPage('cart')">Корзина (<span id="cart-count">0</span>)</div>
 
   <script>
-    const tg = window.Telegram?.WebApp;
-    if (tg) tg.ready();
+   const tg = window.Telegram.WebApp;
+tg.ready();
+
+const btn = document.getElementById('checkout-btn');
+btn.addEventListener('click', () => {
+  const payload = JSON.stringify({
+    items: cart.map(item => ({
+      id: item.id,
+      title: item.title,
+      color: item.color || null,
+      qty: 1
+    })),
+    total: getTotal()
+  });
+
+  // Отправляем данные боту и закрываем мини‑апп
+  tg.sendData(payload);
+});
 
     const products = [
       { id: 1, title: "Airpods Pro 3", desc: "Чистый звук, шумоподавление, до 20 часов работы.", price: 1500, img: "img/Airpods pro 3.jpg" },
@@ -320,7 +336,7 @@
       return cart.reduce((sum, item) => sum + products.find(p => p.id === item.id).price, 0);
     }
 
-      function renderCart() {
+     function renderCart() {
       const box = document.getElementById("cart-items");
       box.innerHTML = "";
       const groups = {};
@@ -352,6 +368,7 @@
       document.getElementById("checkout-btn").style.display = cart.length ? "block" : "none";
       document.getElementById("total-sum").textContent = total.toLocaleString("ru-RU") + " ₽";
     }
+
 
 
 
@@ -424,7 +441,6 @@
   </script>
 </body>
 </html>
-
 
 
 
