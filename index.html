@@ -238,7 +238,7 @@
       { id: 8, title: "Очки Smart Glasses", desc: "Лучшее качество очков с камерой, под Ray Ban, максимальный эксклюзив, количество строго ограничено, успевайте!", price: 7500, img: "img/ocko.jpg" }
     ];
 
-    let cart = ;
+    let cart = [];
     let currentProduct = null;
     let currentColor = null;
 
@@ -371,7 +371,7 @@
     function payNow() {
       const ok = confirm("Вы перевели сумму по СБП? Нажмите ОК, если оплата отправлена.");
       if (!ok) return;
-      cart = ;
+      cart = [];
       document.getElementById("cart-count").textContent = 0;
       showPage("success");
     }
