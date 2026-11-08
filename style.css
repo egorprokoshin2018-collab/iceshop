@@ -1,13 +1,17 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-  background: #f2f2f7;
-  padding: 16px;
-  padding-bottom: 80px;
+  background-color: var(--bg);
+  color: var(--text);
+  margin: 0;
+  font-family: sans-serif;
 }
 
-header { text-align: center; margin-bottom: 16px; }
+
+header, .product-card {
+  background-color: var(--card);
+}
+
 header h1 { font-size: 24px; }
 header p { color: #666; font-size: 14px; }
 
@@ -61,3 +65,17 @@ footer button {
   font-size: 16px;
   cursor: pointer;
 }
+:root {
+  --bg: #0f1a33;
+  --card: #1a2b4d;
+  --text: #e0e7ff;
+  --accent: #4facfe;
+}
+button, .btn {
+  background-color: var(--accent);
+  color: #0f1a33;
+  border: none;
+  padding: 8px 16px;
+}
+
+
