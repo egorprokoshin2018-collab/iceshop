@@ -320,7 +320,7 @@
       return cart.reduce((sum, item) => sum + products.find(p => p.id === item.id).price, 0);
     }
 
-    function renderCart() {
+   function renderCart() {
   const box = document.getElementById("cart-items");
   box.innerHTML = "";
   const groups = {};
@@ -354,6 +354,7 @@
   document.getElementById("checkout-btn").style.display = cart.length ? "block" : "none";
   document.getElementById("total-sum").textContent = total.toLocaleString("ru-RU") + " ₽";
 }
+
 
 
     function removeOne(idx) {
