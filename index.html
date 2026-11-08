@@ -232,20 +232,16 @@
 tg.ready();
 
 const btn = document.getElementById('checkout-btn');
-btn.addEventListener('click', () => {
-  const payload = JSON.stringify({
-    items: cart.map(item => ({
-      id: item.id,
-      title: item.title,
-      color: item.color || null,
-      qty: 1
-    })),
-    total: getTotal()
-  });
+<!-- Кнопка "К оформлению" -->
+<button id="checkout-btn">Перейти к оформлению</button>
 
-  // Отправляем данные боту и закрываем мини‑апп
-  tg.sendData(payload);
-});
+<!-- Скрытая форма (показывается JS-ом) -->
+<div id="checkout-form" style="display: none;">
+    <input type="text" id="phone" placeholder="Ваш телефон">
+    <input type="text" id="address" placeholder="Адрес доставки">
+    <button id="pay-btn">Оплатить</button>
+</div>
+
 
     const products = [
       { id: 1, title: "Airpods Pro 3", desc: "Чистый звук, шумоподавление, до 20 часов работы.", price: 1500, img: "img/Airpods pro 3.jpg" },
