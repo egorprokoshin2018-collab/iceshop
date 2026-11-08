@@ -242,24 +242,24 @@
       { id: 8, title: "Очки Smart Glasses", desc: "Лучшее качество очков с камерой, под Ray Ban, максимальный эксклюзив, количество строго ограничено, успевайте!", price: 7500, img: "img/ocko.jpg" }
     ];
 
-    let cart = ;
+    let cart = [];
     let currentProduct = null;
     let currentColor = null;
 
     // ===== КАТАЛОГ =====
-    const catalogEl = document.getElementById("catalog");
+        const catalogEl = document.getElementById("catalog");
     products.forEach(p => {
       const hasColors = Array.isArray(p.colors) && p.colors.length > 0;
-      catalogEl.insertAdjacentHTML("beforeend", `
-        <article class="product-card" onclick="openProduct(\${p.id})">
-          <img src="${p.img}" alt="${p.title}" class="product-img" />
-          <h3 class="product-title">\${p.title}</h3>
-          <p class="product-desc">\${p.desc}</p>
-          <div class="product-price">\${p.price.toLocaleString("ru-RU")} ₽</div>
-          \${hasColors ? `<div class="product-hint">Доступно в нескольких цветах</div>` : ""}
-        </article>
-      `);
+      let html = '<article class="product-card" onclick="openProduct(' + p.id + ')">';
+      html += '<img src="' + p.img + '" alt="' + p.title + '" class="product-img" />';
+      html += '<h3 class="product-title">' + p.title + '</h3>';
+      html += '<p class="product-desc">' + p.desc + '</p>';
+      html += '<div class="product-price">' + p.price.toLocaleString("ru-RU") + ' ₽</div>';
+      if (hasColors) html += '<div class="product-hint">Доступно в нескольких цветах</div>';
+      html += '</article>';
+      catalogEl.insertAdjacentHTML("beforeend", html);
     });
+
 
     function showPage(name) {
       document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
@@ -390,13 +390,15 @@
                     document.getElementById("floor").value].join(", ")
         });
         tg.sendData(payload);
-        cart = ;
+              cart = [];
+
         document.getElementById("cart-count").textContent = 0;
         showPage("success");
       } else {
         const ok = confirm("Вы перевели сумму по СБП? Нажмите ОК, если оплата отправлена.");
         if (!ok) return;
-        cart = ;
+              cart = [];
+
         document.getElementById("cart-count").textContent = 0;
         showPage("success");
       }
@@ -422,5 +424,4 @@
   </script>
 </body>
 </html>
-
 
