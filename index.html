@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ice Shop — Электроника</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -227,6 +228,9 @@
   <div class="cart-bar" id="cart-bar" onclick="showPage('cart')">Корзина (<span id="cart-count">0</span>)</div>
 
   <script>
+    const tg = window.Telegram?.WebApp;
+    if (tg) tg.ready();
+
     const products = [
       { id: 1, title: "Airpods Pro 3", desc: "Чистый звук, шумоподавление, до 20 часов работы.", price: 1500, img: "img/Airpods pro 3.jpg", colors: ["Белый"] },
       { id: 2, title: "Apple Watch 11", desc: "Будут вашими помощниками при любом раскладе: в спортзале или на прогулке!", price: 2800, img: "img/apple watch 11.jpg", colors: ["Чёрный", "Серебристый"] },
@@ -238,26 +242,24 @@
       { id: 8, title: "Очки Smart Glasses", desc: "Лучшее качество очков с камерой, под Ray Ban, максимальный эксклюзив, количество строго ограничено, успевайте!", price: 7500, img: "img/ocko.jpg" }
     ];
 
-    let cart = [];
+    let cart = ;
     let currentProduct = null;
     let currentColor = null;
 
     // ===== КАТАЛОГ =====
-        const catalogEl = document.getElementById("catalog");
+    const catalogEl = document.getElementById("catalog");
     products.forEach(p => {
       const hasColors = Array.isArray(p.colors) && p.colors.length > 0;
       catalogEl.insertAdjacentHTML("beforeend", `
-        <article class="product-card" onclick="openProduct(${p.id})">
+        <article class="product-card" onclick="openProduct(\${p.id})">
           <img src="${p.img}" alt="${p.title}" class="product-img" />
-          <h3 class="product-title">${p.title}</h3>
-          <p class="product-desc">${p.desc}</p>
-          <div class="product-price">${p.price.toLocaleString("ru-RU")} ₽</div>
-          ${hasColors ? `<div class="product-hint">Доступно в нескольких цветах</div>` : ""}
+          <h3 class="product-title">\${p.title}</h3>
+          <p class="product-desc">\${p.desc}</p>
+          <div class="product-price">\${p.price.toLocaleString("ru-RU")} ₽</div>
+          \${hasColors ? `<div class="product-hint">Доступно в нескольких цветах</div>` : ""}
         </article>
       `);
     });
-
-
 
     function showPage(name) {
       document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
@@ -371,11 +373,33 @@
     }
 
     function payNow() {
-      const ok = confirm("Вы перевели сумму по СБП? Нажмите ОК, если оплата отправлена.");
-      if (!ok) return;
-      cart = [];
-      document.getElementById("cart-count").textContent = 0;
-      showPage("success");
+      if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        // Отправка заказа в бота
+        const items = cart.map(i => {
+          const p = products.find(x => x.id === i.id);
+          return p ? p.title + (i.color ? " (" + i.color + ")" : "") : "товар";
+        });
+        const payload = JSON.stringify({
+          items: items,
+          total: getTotal(),
+          phone: document.getElementById("phone").value,
+          address: [document.getElementById("street").value,
+                    document.getElementById("house").value,
+                    document.getElementById("entrance").value,
+                    document.getElementById("apartment").value,
+                    document.getElementById("floor").value].join(", ")
+        });
+        tg.sendData(payload);
+        cart = ;
+        document.getElementById("cart-count").textContent = 0;
+        showPage("success");
+      } else {
+        const ok = confirm("Вы перевели сумму по СБП? Нажмите ОК, если оплата отправлена.");
+        if (!ok) return;
+        cart = ;
+        document.getElementById("cart-count").textContent = 0;
+        showPage("success");
+      }
     }
 
     // ===== МАСКА ТЕЛЕФОНА =====
@@ -398,4 +422,5 @@
   </script>
 </body>
 </html>
+
 
