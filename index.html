@@ -30,7 +30,6 @@
     .page { display: none; }
     .page.active { display: block; }
 
-    /* КАТАЛОГ */
     .catalog-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -49,7 +48,6 @@
     .product-price { font-size: 22px; font-weight: 700; color: var(--accent); }
     .product-hint { color: #636380; font-size: 13px; margin-top: 8px; }
 
-    /* СТРАНИЦА ТОВАРА */
     .product-page { max-width: 800px; margin: 0 auto; }
     .pp-img {
       width: 100%; max-width: 500px; height: 320px; object-fit: cover;
@@ -71,7 +69,6 @@
       color: #fff; font-weight: 600;
     }
 
-    /* КОРЗИНА И ОФОРМЛЕНИЕ */
     .section-title { font-size: 28px; font-weight: 700; margin-bottom: 24px; color: #fff; }
     .cart-item {
       background: var(--card); border: 1px solid var(--border); border-radius: 12px;
@@ -83,7 +80,6 @@
     .cart-total span { color: var(--accent); }
     .empty-cart { text-align: center; padding: 60px 20px; color: #9a9ab5; font-size: 18px; }
 
-    /* ФОРМА */
     .form-group { margin-bottom: 16px; }
     .form-group label { display: block; margin-bottom: 6px; color: #9a9ab5; font-size: 14px; }
     .form-group input {
@@ -93,7 +89,6 @@
     .form-group input:focus { border-color: var(--accent); }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
-    /* ОПЛАТА */
     .pay-option {
       background: var(--card); border: 2px solid var(--accent); border-radius: 12px;
       padding: 20px; margin-bottom: 16px;
@@ -122,7 +117,7 @@
 <body>
   <header onclick="showPage('catalog')">
     <h1 class="shop-name">Ice Shop</h1>
-    <p class="shop-tagline">Электроника с доставкой</p>
+    <p class="shop-tagline">Электроника по низкой цене</p>
   </header>
 
   <!-- КАТАЛОГ -->
@@ -200,7 +195,7 @@
       <p>Переведите сумму заказа по номеру телефона, затем нажмите «Оплатить».</p>
       <div class="qr-box">
         <p style="margin-bottom:10px; font-weight:600;">Перевод по СБП на номер:</p>
-        <p style="font-size:20px; font-weight:700;">+7 (900) 123-45-67</p>
+        <p style="font-size:20px; font-weight:700;">+7 (911) 598-28-19</p>
         <p style="margin-top:10px;">После перевода нажмите кнопку «Оплатить» ниже.</p>
       </div>
     </div>
@@ -225,11 +220,11 @@
       { id: 1, title: "Airpods Pro 3", desc: "Чистый звук, шумоподавление, до 20 часов работы.", price: 1500, img: "img/Airpods pro 3.jpg", colors: ["Белый"] },
       { id: 2, title: "Apple Watch 11", desc: "Будут вашими помощниками при любом раскладе: в спортзале или на прогулке!", price: 2800, img: "img/apple watch 11.jpg", colors: ["Чёрный", "Серебристый"] },
       { id: 3, title: "Apple Watch Ultra 3", desc: "Максимально прочные часы для спорта и походов с долгой автономностью.", price: 3200, img: "img/apple watch 3.jpg" },
-      { id: 4, title: "Фен Dyson", desc: "Мощный фен с интеллектуальным контролем температуры и защитой волос от перегрева.", price: 3000, img: "img/dusn.jpg" }
-      { id: 5, title: "Блок питания 20W", desc: "Компактное зарядное устройство с быстрой зарядкой для iPhone и других гаджетов.", price: 500, img: "img/block.jpg" }
-      { id: 6, title: "Power Bank с MagSafe", desc: "Магнитный повербанк, который крепится к iPhone и заряжает его на ходу.", price: 1000, img: "img/power.jpg" }
-      { id: 7, title: "Кархолдер с MagSafe", desc: "Стильный и удобный аксессуар для Aple Phone, благодаря которому вы можете всегда держать ваши  карты под рукой.Миниатюрный бумажник надёжно фиксируется на вашем устройстве и придаёт смартфону оригинальный внешний вид.Картхолдер без анимации и с Анимацией на любой вкус", price: 600, img:"img/kart.jpg" }
-      { id: 8, title: "Очки Smart Glasses ", desc: "Лучшее качество очков с камерой, под Ray Ban, максимальный эксклюзив, количество строго ограничено, успевайте!", price: 7500, img: "img/ocko.jpg" },
+      { id: 4, title: "Фен Dyson", desc: "Мощный фен с интеллектуальным контролем температуры и защитой волос от перегрева.", price: 3000, img: "img/dusn.jpg" },
+      { id: 5, title: "Блок питания 20W", desc: "Компактное зарядное устройство с быстрой зарядкой для iPhone и других гаджетов.", price: 500, img: "img/block.jpg" },
+      { id: 6, title: "Power Bank с MagSafe", desc: "Магнитный повербанк, который крепится к iPhone и заряжает его на ходу.", price: 1000, img: "img/power.jpg" },
+      { id: 7, title: "Кархолдер с MagSafe", desc: "Стильный и удобный аксессуар для Apple Phone, благодаря которому вы можете всегда держать ваши карты под рукой. Миниатюрный бумажник надёжно фиксируется на вашем устройстве и придаёт смартфону оригинальный внешний вид. Картхолдер без анимации и с анимацией на любой вкус.", price: 600, img: "img/kart.jpg" },
+      { id: 8, title: "Очки Smart Glasses", desc: "Лучшее качество очков с камерой, под Ray Ban, максимальный эксклюзив, количество строго ограничено, успевайте!", price: 7500, img: "img/ocko.jpg" }
     ];
 
     let cart = ;
@@ -321,8 +316,9 @@
       });
 
       Object.keys(groups).forEach(key => {
-        const id = parseInt(key.split("|"));
-        const color = key.split("|");
+        const parts = key.split("|");
+        const id = parseInt(parts, 10);
+        const color = parts.length > 1 ? parts : null;
         const p = products.find(x => x.id === id);
         const idx = cart.findIndex(i => i.id === id && (i.color || null) === (color || null));
         box.insertAdjacentHTML("beforeend", `
