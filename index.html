@@ -393,11 +393,17 @@ tg.ready();
   });
 
   const payload = JSON.stringify({
-    items: items,
-    total: getTotal(),
-    phone: phone,
-    address: address
-  });
+  items: items,
+  total: getTotal(),
+  phone: phone,
+  street: document.getElementById("street").value.trim(),
+  house: document.getElementById("house").value.trim(),
+  entrance: document.getElementById("entrance").value.trim(),
+  apartment: document.getElementById("apartment").value.trim(),
+  floor: document.getElementById("floor").value.trim(),
+  address: [street, house, entrance, apartment, floor].join(", ")
+});
+
 
   if (tg && tg.sendData) {
     tg.sendData(payload);
@@ -431,9 +437,3 @@ tg.ready();
   </script>
 </body>
 </html>
-
-
-
-
-
-
