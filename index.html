@@ -230,11 +230,11 @@
     const products = [
       { id: 1, title: "Airpods Pro 3", desc: "Чистый звук, шумоподавление, до 20 часов работы.", price: 1500, img: "img/Airpods pro 3.jpg", colors: ["Белый"] },
       { id: 2, title: "Apple Watch 11", desc: "Будут вашими помощниками при любом раскладе: в спортзале или на прогулке!", price: 2800, img: "img/apple watch 11.jpg", colors: ["Чёрный", "Серебристый"] },
-      { id: 3, title: "Apple Watch Ultra 3", desc: "Максимально прочные часы для спорта и походов с долгой автономностью.", price: 3200, img: "img/apple watch 3.jpg" },
+      { id: 3, title: "Apple Watch Ultra 3", desc: "Максимально прочные часы для спорта и походов с долгой автономностью.", price: 3200, img: "img/apple watch 3.jpg", colors: ["Чёрный", "Серебристый"] },
       { id: 4, title: "Фен Dyson", desc: "Мощный фен с интеллектуальным контролем температуры и защитой волос от перегрева.", price: 3000, img: "img/dusn.jpg" },
       { id: 5, title: "Блок питания 20W", desc: "Компактное зарядное устройство с быстрой зарядкой для iPhone и других гаджетов.", price: 500, img: "img/block.jpg" },
       { id: 6, title: "Power Bank с MagSafe", desc: "Магнитный повербанк, который крепится к iPhone и заряжает его на ходу.", price: 1000, img: "img/power.jpg" },
-      { id: 7, title: "Кархолдер с MagSafe", desc: "Стильный и удобный аксессуар для Apple Phone, благодаря которому вы можете всегда держать ваши карты под рукой. Миниатюрный бумажник надёжно фиксируется на вашем устройстве и придаёт смартфону оригинальный внешний вид. Картхолдер без анимации и с анимацией на любой вкус.", price: 600, img: "img/kart.jpg" },
+      { id: 7, title: "Кархолдер с MagSafe", desc: "Стильный и удобный аксессуар для Apple Phone, благодаря которому вы можете всегда держать ваши карты под рукой. Миниатюрный бумажник надёжно фиксируется на вашем устройстве и придаёт смартфону оригинальный внешний вид. Картхолдер без анимации и с анимацией на любой вкус.", price: 600, img: "img/kart.jpg", colors: ["Тёмно‑фиолетовый", "Чёрный","Cеро‑бежевый", "Терракотово‑оранжевый","Коричнево‑красный", "Тёмно‑зелёный","Тёмно‑сине‑серый", "Приглушённо‑фиолетовый","Пастельно‑розовый","Светло‑серый"] },
       { id: 8, title: "Очки Smart Glasses", desc: "Лучшее качество очков с камерой, под Ray Ban, максимальный эксклюзив, количество строго ограничено, успевайте!", price: 7500, img: "img/ocko.jpg" }
     ];
 
@@ -243,19 +243,21 @@
     let currentColor = null;
 
     // ===== КАТАЛОГ =====
-    const catalogEl = document.getElementById("catalog");
+        const catalogEl = document.getElementById("catalog");
     products.forEach(p => {
       const hasColors = Array.isArray(p.colors) && p.colors.length > 0;
       catalogEl.insertAdjacentHTML("beforeend", `
-        <article class="product-card" onclick="openProduct(\${p.id})">
+        <article class="product-card" onclick="openProduct(${p.id})">
           <img src="${p.img}" alt="${p.title}" class="product-img" />
-          <h3 class="product-title">\${p.title}</h3>
-          <p class="product-desc">\${p.desc}</p>
-          <div class="product-price">\${p.price.toLocaleString("ru-RU")} ₽</div>
-          \${hasColors ? `<div class="product-hint">Доступно в нескольких цветах</div>` : ""}
+          <h3 class="product-title">${p.title}</h3>
+          <p class="product-desc">${p.desc}</p>
+          <div class="product-price">${p.price.toLocaleString("ru-RU")} ₽</div>
+          ${hasColors ? `<div class="product-hint">Доступно в нескольких цветах</div>` : ""}
         </article>
       `);
     });
+
+
 
     function showPage(name) {
       document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
@@ -395,5 +397,7 @@
     });
   </script>
 </body>
+</html>
+
 </html>
 
