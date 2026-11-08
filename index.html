@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Каталог товаров</title>
+  <title>Ice Shop — Электроника</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -13,6 +13,7 @@
       --text: #e0e0e8;
       --accent: #6c5ce7;
       --hover: #8a7cf5;
+      --border: rgba(255, 255, 255, 0.08);
     }
 
     body {
@@ -25,19 +26,43 @@
     header {
       text-align: center;
       margin-bottom: 40px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
     }
 
-    header h1 {
-      font-size: 32px;
-      margin-bottom: 10px;
+    .shop-name {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 8px;
       background: linear-gradient(90deg, var(--accent), #a29bfe);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
 
-    header p {
+    .shop-tagline {
       color: #9a9ab5;
       font-size: 16px;
+    }
+
+    .cart-bar {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      max-width: 600px;
+      background: #2d4a8c;
+      color: #ffffff;
+      padding: 16px;
+      border-radius: 50px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(108, 92, 231, 0.3);
+      z-index: 100;
+    }
+
+    .cart-bar span {
+      font-weight: 600;
+      color: #ffffff;
     }
 
     .catalog-grid {
@@ -51,12 +76,12 @@
       border-radius: 16px;
       padding: 20px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border: 1px solid rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
     }
 
     .product-card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 32px rgba(108, 92, 231, 0.25);
+      transform: translateY(-8px);
+      box-shadow: 0 16px 40px rgba(108, 92, 231, 0.25);
     }
 
     .product-img {
@@ -83,7 +108,7 @@
     }
 
     .product-price {
-      font-size: 20px;
+      font-size: 22px;
       font-weight: 700;
       color: var(--accent);
       margin-bottom: 16px;
@@ -107,7 +132,7 @@
     .btn:hover {
       background: var(--accent);
       color: #ffffff;
-      box-shadow: 0 0 20px rgba(108, 92, 231, 0.4);
+      box-shadow: 0 0 24px rgba(108, 92, 231, 0.4);
     }
 
     footer {
@@ -116,51 +141,73 @@
       padding: 20px;
       color: #636380;
       font-size: 14px;
+      border-top: 1px solid var(--border);
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Каталог товаров</h1>
-    <p>Стильные решения в тёмной эстетике</p>
+    <h1 class="shop-name">Ice Shop</h1>
+    <p class="shop-tagline">Электроника с доставкой</p>
   </header>
 
   <main class="catalog-grid">
     <article class="product-card">
-      <img src="https://via.placeholder.com/300x200/1a1a2e/6c5ce7?text=Товар+1" alt="Товар 1" class="product-img" />
-      <h3 class="product-title">Стильный аксессуар</h3>
-      <p class="product-desc">Элегантный дизайн, премиальные материалы, ручная работа.</p>
-      <div class="product-price">4 990 ₽</div>
+      <img src="https://via.placeholder.com/300x200/1a1a2e/6c5ce7?text=Наушники" alt="Наушники" class="product-img" />
+      <h3 class="product-title">Беспроводные наушники</h3>
+      <p class="product-desc">Чистый звук, шумоподавление, до 20 часов работы.</p>
+      <div class="product-price">12 990 ₽</div>
       <button class="btn">В корзину</button>
     </article>
 
     <article class="product-card">
-      <img src="https://via.placeholder.com/300x200/1a1a2e/6c5ce7?text=Товар+2" alt="Товар 2" class="product-img" />
-      <h3 class="product-title">Минималистичная сумка</h3>
-      <p class="product-desc">Вместительная, но компактная. Идеально для города.</p>
-      <div class="product-price">7 500 ₽</div>
+      <img src="https://via.placeholder.com/300x200/1a1a2e/6c5ce7?text=Часы" alt="Часы" class="product-img" />
+      <h3 class="product-title">Умные часы</h3>
+      <p class="product-desc">Отслеживание активности, уведомления, яркий AMOLED-экран.</p>
+      <div class="product-price">15 490 ₽</div>
       <button class="btn">В корзину</button>
     </article>
 
     <article class="product-card">
-      <img src="https://via.placeholder.com/300x200/1a1a2e/6c5ce7?text=Товар+3" alt="Товар 3" class="product-img" />
-      <h3 class="product-title">Кожаный кошелёк</h3>
-      <p class="product-desc">Натуральная кожа, аккуратная прошивка, компактный размер.</p>
-      <div class="product-price">3 200 ₽</div>
+      <img src="https://via.placeholder.com/300x200/1a1a2e/6c5ce7?text=Колонка" alt="Колонка" class="product-img" />
+      <h3 class="product-title">Портативная колонка</h3>
+      <p class="product-desc">Мощный звук, защита от воды, до 12 часов работы.</p>
+      <div class="product-price">8 790 ₽</div>
       <button class="btn">В корзину</button>
     </article>
 
     <article class="product-card">
-      <img src="https://via.placeholder.com/300x200/1a1a2e/6c5ce7?text=Товар+4" alt="Товар 4" class="product-img" />
-      <h3 class="product-title">Часы в ретро-стиле</h3>
-      <p class="product-desc">Винтажный дизайн, кварцевый механизм, кожаный ремешок.</p>
-      <div class="product-price">9 800 ₽</div>
+      <img src="https://via.placeholder.com/300x200/1a1a2e/6c5ce7?text=Планшет" alt="Планшет" class="product-img" />
+      <h3 class="product-title">Планшет 10.1"</h3>
+      <p class="product-desc">Лёгкий корпус, Full HD экран, 64 ГБ памяти.</p>
+      <div class="product-price">22 500 ₽</div>
       <button class="btn">В корзину</button>
     </article>
   </main>
 
+  <div class="cart-bar">
+    Корзина <span id="cart-count">0</span>
+  </div>
+
   <footer>
-    &copy; 2024 Каталог. Все права защищены.
+    &copy; 2024 Ice Shop. Все права защищены.
   </footer>
+
+  <script>
+    const buttons = document.querySelectorAll('.btn');
+    const cartCount = document.getElementById('cart-count');
+
+    buttons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        let count = parseInt(cartCount.textContent);
+        cartCount.textContent = count + 1;
+        btn.textContent = 'Добавлено';
+        btn.style.background = 'var(--accent)';
+        btn.style.color = '#ffffff';
+        btn.style.boxShadow = 'none';
+      });
+    });
+  </script>
 </body>
 </html>
+
