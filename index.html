@@ -413,18 +413,35 @@ tg.ready();
     return p ? p.title + (i.color ? " (" + i.color + ")" : "") : "товар";
   });
 
-  const payload = JSON.stringify({
-  items: items,
-  total: getTotal(),
-  phone: phone,
-  street: document.getElementById("street").value.trim(),
-  house: document.getElementById("house").value.trim(),
-  entrance: document.getElementById("entrance").value.trim(),
-  apartment: document.getElementById("apartment").value.trim(),
-  floor: document.getElementById("floor").value.trim(),
-  address: [street, house, entrance, apartment, floor].join(", ")
-});
+  function payNow() {
+  const phone = document.getElementById("phone").value.trim();
+  const street = document.getElementById("street").value.trim();
+  const house = document.getElementById("house").value.trim();
+  const entrance = document.getElementById("entrance").value.trim();
+  const apartment = document.getElementById("apartment").value.trim();
+  const floor = document.getElementById("floor").value.trim();
 
+  if (!phone || !street || !house) {
+    alert("Заполните телефон и адрес!");
+    return;
+  }
+
+  const items = cart.map(i => {
+    const p = products.find(x => x.id === i.id);
+    return p ? p.title + (i.color ? " (" + i.color + ")" : "") : "товар";
+  });
+
+  const payload = JSON.stringify({
+    items: items,
+    total: getTotal(),
+    phone: phone,
+    street: street,
+    house: house,
+    entrance: entrance,
+    apartment: apartment,
+    floor: floor,
+    address: [street, house, entrance, apartment, floor].join(", ")
+  });
 
   if (tg && tg.sendData) {
     tg.sendData(payload);
@@ -435,7 +452,8 @@ tg.ready();
 
   cart = [];
   document.getElementById("cart-count").textContent = 0;
-  showPage("success"); 
+  showPage("success");
+}
 
     // ===== МАСКА ТЕЛЕФОНА =====
     const phoneInput = document.getElementById('phone');
