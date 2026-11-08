@@ -101,6 +101,19 @@
     .form-group input:focus { border-color: var(--accent); }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 
+    .promo-row { display: flex; gap: 8px; margin: 16px 0 8px; }
+    .promo-row input {
+      flex: 1; background: var(--card); border: 1px solid var(--border);
+      border-radius: 12px; padding: 14px; color: #fff; font-size: 16px; outline: none;
+      text-transform: uppercase;
+    }
+    .promo-row input:focus { border-color: var(--accent); }
+    .promo-row button {
+      padding: 14px 20px; border-radius: 12px; border: none;
+      background: var(--accent); color: #fff; font-weight: 600; cursor: pointer;
+    }
+    #promo-msg { margin: 0 0 8px; font-size: 14px; min-height: 18px; }
+
     .pay-option {
       background: var(--card); border: 2px solid var(--accent); border-radius: 12px;
       padding: 20px; margin-bottom: 16px;
@@ -195,6 +208,15 @@
         <input type="text" id="floor" placeholder="Этаж" required />
       </div>
     </div>
+
+    <!-- ПРОМОКОД -->
+    <div class="promo-row">
+      <input type="text" id="promo" placeholder="Промокод" />
+      <button onclick="applyPromo()">Применить</button>
+    </div>
+    <p id="promo-msg"></p>
+
+    <div class="cart-total" id="checkout-total-wrap">Итого: <span id="checkout-total">0 ₽</span></div>
     <button class="btn btn-solid" onclick="goToPayment()">Далее</button>
   </main>
 
@@ -228,8 +250,9 @@
   <div class="cart-bar" id="cart-bar" onclick="showPage('cart')">Корзина (<span id="cart-count">0</span>)</div>
 
   <script>
-   const tg = window.Telegram.WebApp;
-tg.ready();
+    const tg = window.Telegram.WebApp;
+    tg.ready();
+
     const products = [
       { id: 1, title: "Airpods Pro 3", desc: "Чистый звук, шумоподавление, до 20 часов работы.", price: 1500, img: "img/Airpods pro 3.jpg" },
       { id: 2, title: "Apple Watch 11", desc: "Будут вашими помощниками при любом раскладе: в спортзале или на прогулке!", price: 2800, img: "img/apple watch 11.jpg", colors: ["Чёрный", "Серебристый"] },
@@ -240,6 +263,13 @@ tg.ready();
       { id: 7, title: "Кархолдер с MagSafe", desc: "Стильный и удобный аксессуар для Apple Phone, благодаря которому вы можете всегда держать ваши карты под рукой. Миниатюрный бумажник надёжно фиксируется на вашем устройстве и придаёт смартфону оригинальный внешний вид. Картхолдер без анимации и с анимацией на любой вкус.", price: 600, img: "img/kart.jpg", colors: ["Тёмно‑фиолетовый", "Чёрный","Cеро‑бежевый", "Терракотово‑оранжевый","Коричнево‑красный", "Тёмно‑зелёный","Тёмно‑сине‑серый", "Приглушённо‑фиолетовый","Пастельно‑розовый","Светло‑серый"] },
       { id: 8, title: "Очки Smart Glasses", desc: "Лучшее качество очков с камерой, под Ray Ban, максимальный эксклюзив, количество строго ограничено, успевайте!", price: 7500, img: "img/ocko.jpg" }
     ];
+
+    // ===== ПРОМОКОДЫ =====
+    const PROMOS = {
+      "ICE10":    { type: "percent", value: 10 },   // минус 10%
+      "START200": { type: "fixed",   value: 200 },  // минус 200 ₽
+    };
+    let activePromo = null;
 
     let cart = [];
     let currentProduct = null;
@@ -264,8 +294,9 @@ tg.ready();
       document.getElementById("page-" + name).classList.add("active");
       document.getElementById("cart-bar").style.display = name === "success" ? "none" : "block";
       if (name === "cart") renderCart();
+      if (name === "checkout") updateCheckoutTotal();
       if (name === "payment") document.getElementById("pay-sum").textContent =
-        getTotal().toLocaleString("ru-RU") + " ₽";
+        getFinalTotal().toLocaleString("ru-RU") + " ₽";
       window.scrollTo(0, 0);
     }
 
@@ -319,7 +350,42 @@ tg.ready();
       return cart.reduce((sum, item) => sum + products.find(p => p.id === item.id).price, 0);
     }
 
-     function renderCart() {
+    function getFinalTotal() {
+      let total = getTotal();
+      if (activePromo) {
+        if (activePromo.type === "percent") {
+          total = Math.round(total * (1 - activePromo.value / 100));
+        } else {
+          total = Math.max(0, total - activePromo.value);
+        }
+      }
+      return total;
+    }
+
+    function applyPromo() {
+      const code = document.getElementById("promo").value.trim().toUpperCase();
+      const msg = document.getElementById("promo-msg");
+      if (!code) {
+        activePromo = null;
+        msg.textContent = "";
+      } else if (PROMOS[code]) {
+        activePromo = Object.assign({ code: code }, PROMOS[code]);
+        msg.textContent = "✅ Промокод применён!";
+        msg.style.color = "#4caf50";
+      } else {
+        activePromo = null;
+        msg.textContent = "❌ Такого промокода нет";
+        msg.style.color = "#ff5252";
+      }
+      updateCheckoutTotal();
+    }
+
+    function updateCheckoutTotal() {
+      document.getElementById("checkout-total").textContent =
+        getFinalTotal().toLocaleString("ru-RU") + " ₽";
+    }
+
+    function renderCart() {
       const box = document.getElementById("cart-items");
       box.innerHTML = "";
       const groups = {};
@@ -345,15 +411,11 @@ tg.ready();
         box.insertAdjacentHTML("beforeend", line);
       });
 
-      const total = getTotal();
       document.getElementById("cart-empty").style.display = cart.length ? "none" : "block";
       document.getElementById("cart-total").style.display = cart.length ? "block" : "none";
       document.getElementById("checkout-btn").style.display = cart.length ? "block" : "none";
-      document.getElementById("total-sum").textContent = total.toLocaleString("ru-RU") + " ₽";
+      document.getElementById("total-sum").textContent = getTotal().toLocaleString("ru-RU") + " ₽";
     }
-
-
-
 
     function removeOne(idx) {
       cart.splice(idx, 1);
@@ -374,86 +436,50 @@ tg.ready();
     }
 
     function payNow() {
-  const phone = document.getElementById("phone").value.trim();
-  const street = document.getElementById("street").value.trim();
-  const house = document.getElementById("house").value.trim();
-  const entrance = document.getElementById("entrance").value.trim();
-  const apartment = document.getElementById("apartment").value.trim();
-  const floor = document.getElementById("floor").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const street = document.getElementById("street").value.trim();
+      const house = document.getElementById("house").value.trim();
+      const entrance = document.getElementById("entrance").value.trim();
+      const apartment = document.getElementById("apartment").value.trim();
+      const floor = document.getElementById("floor").value.trim();
 
-  if (!phone || !street || !house) {
-    alert("Заполните телефон и адрес!");
-    return;
-  }
+      if (!phone || !street || !house) {
+        alert("Заполните телефон и адрес!");
+        return;
+      }
 
-  const items = cart.map(i => {
-    const p = products.find(x => x.id === i.id);
-    return p ? p.title + (i.color ? " (" + i.color + ")" : "") : "товар";
-  });
+      const items = cart.map(i => {
+        const p = products.find(x => x.id === i.id);
+        return p ? p.title + (i.color ? " (" + i.color + ")" : "") : "товар";
+      });
 
-  tg.sendData(JSON.stringify({
-    items: items,
-    total: getTotal(),
-    phone: phone,
-    street: street,
-    house: house,
-    entrance: entrance,
-    apartment: apartment,
-    floor: floor
-  }));
+      const payload = JSON.stringify({
+        items: items,
+        total: getFinalTotal(),
+        promo: activePromo ? activePromo.code : "",
+        phone: phone,
+        street: street,
+        house: house,
+        entrance: entrance,
+        apartment: apartment,
+        floor: floor,
+        address: [street, house, entrance, apartment, floor].join(", ")
+      });
 
-  cart = [];
-  document.getElementById("cart-count").textContent = 0;
-  showPage("success");
-}
+      if (tg && tg.sendData) {
+        tg.sendData(payload);
+      } else {
+        alert("Откройте магазин через кнопку бота, чтобы оформить заказ.");
+        return;
+      }
 
-
-  const items = cart.map(i => {
-    const p = products.find(x => x.id === i.id);
-    return p ? p.title + (i.color ? " (" + i.color + ")" : "") : "товар";
-  });
-
-  function payNow() {
-  const phone = document.getElementById("phone").value.trim();
-  const street = document.getElementById("street").value.trim();
-  const house = document.getElementById("house").value.trim();
-  const entrance = document.getElementById("entrance").value.trim();
-  const apartment = document.getElementById("apartment").value.trim();
-  const floor = document.getElementById("floor").value.trim();
-
-  if (!phone || !street || !house) {
-    alert("Заполните телефон и адрес!");
-    return;
-  }
-
-  const items = cart.map(i => {
-    const p = products.find(x => x.id === i.id);
-    return p ? p.title + (i.color ? " (" + i.color + ")" : "") : "товар";
-  });
-
-  const payload = JSON.stringify({
-    items: items,
-    total: getTotal(),
-    phone: phone,
-    street: street,
-    house: house,
-    entrance: entrance,
-    apartment: apartment,
-    floor: floor,
-    address: [street, house, entrance, apartment, floor].join(", ")
-  });
-
-  if (tg && tg.sendData) {
-    tg.sendData(payload);
-  } else {
-    alert("Откройте магазин через кнопку бота, чтобы оформить заказ.");
-    return;
-  }
-
-  cart = [];
-  document.getElementById("cart-count").textContent = 0;
-  showPage("success");
-}
+      cart = [];
+      activePromo = null;
+      document.getElementById("promo").value = "";
+      document.getElementById("promo-msg").textContent = "";
+      document.getElementById("cart-count").textContent = 0;
+      showPage("success");
+    }
 
     // ===== МАСКА ТЕЛЕФОНА =====
     const phoneInput = document.getElementById('phone');
