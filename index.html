@@ -247,7 +247,7 @@
     let currentColor = null;
 
     // ===== КАТАЛОГ =====
-        const catalogEl = document.getElementById("catalog");
+    const catalogEl = document.getElementById("catalog");
     products.forEach(p => {
       const hasColors = Array.isArray(p.colors) && p.colors.length > 0;
       let html = '<article class="product-card" onclick="openProduct(' + p.id + ')">';
@@ -259,7 +259,6 @@
       html += '</article>';
       catalogEl.insertAdjacentHTML("beforeend", html);
     });
-
 
     function showPage(name) {
       document.querySelectorAll(".page").forEach(el => el.classList.remove("active"));
@@ -321,7 +320,7 @@
       return cart.reduce((sum, item) => sum + products.find(p => p.id === item.id).price, 0);
     }
 
-        function renderCart() {
+    function renderCart() {
       const box = document.getElementById("cart-items");
       box.innerHTML = "";
       const groups = {};
@@ -356,7 +355,6 @@
       document.getElementById("total-sum").textContent = total.toLocaleString("ru-RU") + " ₽";
     }
 
-
     function removeOne(idx) {
       cart.splice(idx, 1);
       document.getElementById("cart-count").textContent = cart.length;
@@ -377,7 +375,6 @@
 
     function payNow() {
       if (tg && tg.initDataUnsafe && tg.initDataUnsafe.user) {
-        // Отправка заказа в бота
         const items = cart.map(i => {
           const p = products.find(x => x.id === i.id);
           return p ? p.title + (i.color ? " (" + i.color + ")" : "") : "товар";
@@ -393,13 +390,15 @@
                     document.getElementById("floor").value].join(", ")
         });
         tg.sendData(payload);
-        cart = [];
+             cart = [];
+
         document.getElementById("cart-count").textContent = 0;
         showPage("success");
       } else {
         const ok = confirm("Вы перевели сумму по СБП? Нажмите ОК, если оплата отправлена.");
         if (!ok) return;
-        cart = [];
+              cart = [];
+
         document.getElementById("cart-count").textContent = 0;
         showPage("success");
       }
