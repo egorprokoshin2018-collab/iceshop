@@ -320,7 +320,7 @@
       return cart.reduce((sum, item) => sum + products.find(p => p.id === item.id).price, 0);
     }
 
-   function renderCart() {
+  function renderCart() {
   const box = document.getElementById("cart-items");
   box.innerHTML = "";
   const groups = {};
@@ -426,3 +426,5 @@
   </script>
 </body>
 </html>
+
+
