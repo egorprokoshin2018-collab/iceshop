@@ -321,7 +321,7 @@
       return cart.reduce((sum, item) => sum + products.find(p => p.id === item.id).price, 0);
     }
 
-    function renderCart() {
+        function renderCart() {
       const box = document.getElementById("cart-items");
       box.innerHTML = "";
       const groups = {};
@@ -336,14 +336,15 @@
         const color = parts.length > 1 ? parts : null;
         const p = products.find(x => x.id === id);
         const idx = cart.findIndex(i => i.id === id && (i.color || null) === (color || null));
+        const totalPrice = (p.price * groups[key]).toLocaleString("ru-RU");
+
         box.insertAdjacentHTML("beforeend", `
           <div class="cart-item">
             <div>
               <div class="cart-item-name">${p.title}${color ? " · " + color : ""} × \${groups[key]}</div>
               <button class="back-link" style="margin:0; font-size:13px;" onclick="removeOne(\${idx})">Удалить одну</button>
             </div>
-            html += '<div class="cart-item-price">' + (p.price * groups[key]).toLocaleString("ru-RU") + ' ₽</div>';
-
+            <div class="cart-item-price">\${totalPrice} ₽</div>
           </div>
         `);
       });
@@ -354,6 +355,7 @@
       document.getElementById("checkout-btn").style.display = cart.length ? "block" : "none";
       document.getElementById("total-sum").textContent = total.toLocaleString("ru-RU") + " ₽";
     }
+
 
     function removeOne(idx) {
       cart.splice(idx, 1);
